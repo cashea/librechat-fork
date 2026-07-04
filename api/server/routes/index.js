@@ -32,6 +32,7 @@ const files = require('./files');
 const share = require('./share');
 const tags = require('./tags');
 const auth = require('./auth');
+const gateway = require('./gateway');
 const keys = require('./keys');
 const user = require('./user');
 const mcp = require('./mcp');
@@ -41,6 +42,7 @@ module.exports = {
   rum,
   mcp,
   auth,
+  gateway,
   adminAuth,
   adminConfig,
   adminGrants,
