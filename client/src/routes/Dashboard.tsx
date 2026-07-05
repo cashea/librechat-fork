@@ -7,6 +7,11 @@ function PromptsRedirect() {
   return <Navigate to={target} replace={true} />;
 }
 
+const loadGatewayDashboard = () =>
+  import('~/components/Gateway/GatewayDashboard').then((m) => ({
+    Component: m.default,
+  }));
+
 const dashboardRoutes = {
   path: 'd/*',
   element: <DashboardRoute />,
@@ -14,6 +19,10 @@ const dashboardRoutes = {
     {
       path: 'prompts/*',
       element: <PromptsRedirect />,
+    },
+    {
+      path: 'gateway',
+      lazy: loadGatewayDashboard,
     },
     {
       path: '*',

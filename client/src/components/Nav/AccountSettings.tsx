@@ -1,6 +1,8 @@
 import { useState, memo, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 import * as Menu from '@ariakit/react/menu';
+import { useNavigate } from 'react-router-dom';
+import { SystemRoles } from 'librechat-data-provider';
 import { GearIcon, DropdownMenuSeparator, Avatar } from '@librechat/client';
 import {
   Archive,
@@ -11,6 +13,7 @@ import {
   LifeBuoy,
   LogOut,
   Scale,
+  ServerCog,
   ShieldCheck,
 } from 'lucide-react';
 import { ArchivedChatsModal } from '~/components/Nav/SettingsTabs/General/ArchivedChatsModal';
@@ -94,6 +97,7 @@ function HelpSubmenu({
 
 function AccountSettings({ collapsed = false }: { collapsed?: boolean }) {
   const localize = useLocalize();
+  const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuthContext();
   const { data: startupConfig } = useGetStartupConfig();
   const balanceQuery = useGetUserBalance({
@@ -160,6 +164,16 @@ function AccountSettings({ collapsed = false }: { collapsed?: boolean }) {
           privacyPolicyURL={startupConfig?.interface?.privacyPolicy?.externalUrl}
           onShowShortcuts={() => setShowShortcutsDialog(true)}
         />
+        {user?.role === SystemRoles.ADMIN && (
+          <Menu.MenuItem
+            onClick={() => navigate('/d/gateway')}
+            className="select-item text-sm"
+            data-testid="nav-gateway-dashboard"
+          >
+            <ServerCog className="icon-md" aria-hidden="true" />
+            {localize('com_ui_gateway_dashboard')}
+          </Menu.MenuItem>
+        )}
         <Menu.MenuItem onClick={() => setShowFiles(true)} className="select-item text-sm">
           <FileText className="icon-md" aria-hidden="true" />
           {localize('com_nav_my_files')}
